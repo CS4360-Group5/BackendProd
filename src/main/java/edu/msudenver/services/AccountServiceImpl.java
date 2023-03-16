@@ -5,6 +5,8 @@ import edu.msudenver.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -14,6 +16,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account createAccount(Account account) {
         return accountRepository.save(account);
+    }
+
+    @Override
+    public List<Account> getAllAccounts() {
+        return accountRepository.findAll();
     }
 
     @Override
@@ -33,9 +40,18 @@ public class AccountServiceImpl implements AccountService {
         existingAccount.setStatus(account.getStatus());
         return accountRepository.save(existingAccount);
     }
-
     @Override
     public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    public Account getAccountByEmail(String email){
+        return accountRepository.findByEmail(email);
+    }
+
+    @Override
+    public Account getAccountBygamerTag(String gamerTag){
+        return accountRepository.findBygamerTag(gamerTag);
     }
 }
