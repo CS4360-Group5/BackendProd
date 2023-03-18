@@ -71,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
         if (existingAccount == null) {
             return null;
         }
-        existingAccount.setStatus("Online");
+        existingAccount.setStatus("Offline");
         return accountRepository.save(existingAccount);
     }
 
@@ -85,6 +85,6 @@ public class AccountServiceImpl implements AccountService {
             return false;
         }
 
-        return password == account.getPassword();
+        return password.equals(account.getPassword());
     }
 }

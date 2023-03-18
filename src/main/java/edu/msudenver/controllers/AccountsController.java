@@ -73,7 +73,7 @@ public class AccountsController {
             boolean isAuthenticated = accountService.authenticateUser(account.getEmail(), account.getPassword());
 
             if (isAuthenticated) {
-                // Update the user's status to "active"
+                // Update the user's status to "Online"
                 account.setStatus("Online");
 
                 // Update the user's record in the database
@@ -84,14 +84,14 @@ public class AccountsController {
                     return ResponseEntity.internalServerError().body("Error updating account: " + ex.getMessage());
                 }
             } else {
-                return ResponseEntity.badRequest().body("Invalid email or password.");
+                return ResponseEntity.badRequest().body("Invalid email or password");
             }
         } else {
-            return ResponseEntity.badRequest().body("Invalid email or password.");
+            return ResponseEntity.badRequest().body("Invalid email or password");
         }
     }
 
-    @PutMapping("/logOut/{accountId}")
+    @PutMapping("/logout/{accountId}")
     public ResponseEntity<String> accountLogout(@PathVariable Long accountId, @RequestBody Account account) {
         // Check if the email and password are valid
         if (isValidEmail(account.getEmail()) && isValidPassword(account.getPassword())) {
@@ -99,21 +99,21 @@ public class AccountsController {
             boolean isAuthenticated = accountService.authenticateUser(account.getEmail(), account.getPassword());
 
             if (isAuthenticated) {
-                // Update the user's status to "active"
+                // Update the user's status to "Offline"
                 account.setStatus("Offline");
 
                 // Update the user's record in the database
                 try {
-                    accountService.updateOnline(accountId, account);
+                    accountService.updateOffline(accountId, account);
                     return ResponseEntity.ok("Logout successful.");
                 } catch (Exception ex) {
                     return ResponseEntity.internalServerError().body("Error updating account: " + ex.getMessage());
                 }
             } else {
-                return ResponseEntity.badRequest().body("Invalid email or password.");
+                return ResponseEntity.badRequest().body("Invalid email or password");
             }
         } else {
-            return ResponseEntity.badRequest().body("Invalid email or password.");
+            return ResponseEntity.badRequest().body("Invalid email or password");
         }
     }
 
@@ -149,6 +149,6 @@ public class AccountsController {
             }
         }
 
-        return hasUppercase && hasLowercase && hasDigit;
+        return hasLowercase && hasDigit;
     }
 }
