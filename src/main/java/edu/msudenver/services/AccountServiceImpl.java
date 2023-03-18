@@ -54,4 +54,37 @@ public class AccountServiceImpl implements AccountService {
     public Account getAccountBygamerTag(String gamerTag){
         return accountRepository.findBygamerTag(gamerTag);
     }
+
+    @Override
+    public Account updateOnline(Long id, Account account) {
+        Account existingAccount = accountRepository.findById(id).orElse(null);
+        if (existingAccount == null) {
+            return null;
+        }
+        existingAccount.setStatus("Online");
+        return accountRepository.save(existingAccount);
+    }
+
+    @Override
+    public Account updateOffline(Long id, Account account) {
+        Account existingAccount = accountRepository.findById(id).orElse(null);
+        if (existingAccount == null) {
+            return null;
+        }
+        existingAccount.setStatus("Online");
+        return accountRepository.save(existingAccount);
+    }
+
+    @Override
+    public boolean authenticateUser(String email, String password) {
+        // Find the account by email
+        Account account = accountRepository.findByEmail(email);
+
+        // If account is null, the user is not authenticated
+        if (account == null) {
+            return false;
+        }
+
+        return password == account.getPassword();
+    }
 }

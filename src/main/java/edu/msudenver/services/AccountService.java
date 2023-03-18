@@ -14,4 +14,9 @@ public interface AccountService {
     Account getAccountByEmail(String email);
 
     Account getAccountBygamerTag(String gamerTag);
+
+    Account updateOnline(Long id, Account account);
+    Account updateOffline(Long id, Account account);
+
+    boolean authenticateUser(String email, String password);
 }
