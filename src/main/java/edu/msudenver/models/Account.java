@@ -1,6 +1,8 @@
 package edu.msudenver.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "accounts")
@@ -17,6 +19,10 @@ public class Account {
     private String password;
 
     private String status;
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<Profile> profiles = new ArrayList<>();
 
     public Account() {}
 
@@ -65,5 +71,13 @@ public class Account {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
     }
 }
