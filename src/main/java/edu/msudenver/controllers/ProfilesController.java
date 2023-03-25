@@ -25,7 +25,7 @@ public class ProfilesController {
         List<ProfileResponse> profileResponses = new ArrayList<>();
 
         for (Profile profile : profiles) {
-            Account account = profile.getAccount();
+            AccountResponse account = profile.getAccount();
             AccountResponse accountResponse = new AccountResponse(
                     account.getAccountId(),
                     account.getEmail(),
@@ -130,5 +130,4 @@ public class ProfilesController {
         return ResponseEntity.noContent().build();
     }
 
-    // other controller methods for updating, deleting, and listing profiles
 }

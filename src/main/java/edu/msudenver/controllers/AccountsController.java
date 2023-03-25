@@ -65,8 +65,8 @@ public class AccountsController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/login/{accountId}")
-    public ResponseEntity<String> accountLogin(@PathVariable Long accountId, @RequestBody Account account) {
+    @PutMapping("/login")
+    public ResponseEntity<Object> accountLogin(@RequestBody Account account) {
         // Check if the email and password are valid
         if (isValidEmail(account.getEmail()) && isValidPassword(account.getPassword())) {
             // Authenticate the user's email and password
@@ -74,12 +74,13 @@ public class AccountsController {
 
             if (isAuthenticated) {
                 // Update the user's status to "Online"
-                account.setStatus("Online");
+                Account updateAccount = accountService.getAccountByEmail(account.getEmail());
+                updateAccount.setStatus("Online");
 
                 // Update the user's record in the database
                 try {
-                    accountService.updateOnline(accountId, account);
-                    return ResponseEntity.ok("Login successful.");
+                    Account updatedAccount = updateAccount;
+                    return ResponseEntity.ok(updatedAccount);
                 } catch (Exception ex) {
                     return ResponseEntity.internalServerError().body("Error updating account: " + ex.getMessage());
                 }
@@ -91,8 +92,8 @@ public class AccountsController {
         }
     }
 
-    @PutMapping("/logout/{accountId}")
-    public ResponseEntity<String> accountLogout(@PathVariable Long accountId, @RequestBody Account account) {
+    @PutMapping("/logout")
+    public ResponseEntity<String> accountLogout(@RequestBody Account account) {
         // Check if the email and password are valid
         if (isValidEmail(account.getEmail()) && isValidPassword(account.getPassword())) {
             // Authenticate the user's email and password
@@ -104,7 +105,7 @@ public class AccountsController {
 
                 // Update the user's record in the database
                 try {
-                    accountService.updateOffline(accountId, account);
+                    accountService.updateOffline(account.getAccountId(), account);
                     return ResponseEntity.ok("Logout successful.");
                 } catch (Exception ex) {
                     return ResponseEntity.internalServerError().body("Error updating account: " + ex.getMessage());

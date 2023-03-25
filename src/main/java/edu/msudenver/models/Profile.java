@@ -28,6 +28,7 @@ public class Profile {
     @JsonIgnore
     private Account account;
 
+
     public Long getProfileId() {
         return profileId;
     }
@@ -80,11 +81,15 @@ public class Profile {
         return isActive;
     }
 
-    public Account getAccount() {
-        return account;
+    public AccountResponse getAccount() {
+        return new AccountResponse(account);
     }
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
