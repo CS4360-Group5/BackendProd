@@ -6,7 +6,6 @@ import edu.msudenver.models.ProfileResponse;
 
 import java.util.List;
 
-// ProfileService.java
 public interface ProfileService {
 
     List<Profile> getProfileByAccountId(Long accountId);

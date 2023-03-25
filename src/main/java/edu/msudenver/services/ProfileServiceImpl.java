@@ -98,14 +98,14 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setIsActive(profileRequest.getIsActive());
 
         // Update account fields
-        Account account = profile.getAccount();
-        account.setEmail(profileRequest.getAccount().getEmail());
-        account.setGamerTag(profileRequest.getAccount().getGamerTag());
-        account.setPassword(profileRequest.getAccount().getPassword());
-        account.setStatus(profileRequest.getAccount().getStatus());
+        //Account account = profile.getAccount();
+        //account.setEmail(profileRequest.getAccount().getEmail());
+        //account.setGamerTag(profileRequest.getAccount().getGamerTag());
+        //account.setPassword(profileRequest.getAccount().getPassword());
+       // account.setStatus(profileRequest.getAccount().getStatus());
 
         // Save changes to database
-        profile.setAccount(accountRepository.save(account));
+        //profile.setAccount(accountRepository.save(account));
         return profileRepository.save(profile);
     }
 

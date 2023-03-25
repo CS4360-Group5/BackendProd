@@ -12,4 +12,5 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
     @Query("SELECT p FROM Profile p WHERE p.account.accountId = ?1")
     List<Profile> findByAccountId(Long accountId);
+
 }

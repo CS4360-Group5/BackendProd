@@ -10,6 +10,9 @@ public class ProfileResponse {
     private boolean isActive;
     private AccountResponse account;
 
+    private Long accountId;
+
+
     public ProfileResponse(Long profileId, String profileName, String classType, String gender, String origins, boolean isActive, AccountResponse account) {
 
         this.profileId = profileId;
@@ -19,6 +22,10 @@ public class ProfileResponse {
         this.origins = origins;
         this.isActive = isActive;
         this.account = account;
+    }
+
+    public ProfileResponse() {
+
     }
 
     public Long getProfileId() {
@@ -47,5 +54,41 @@ public class ProfileResponse {
 
     public AccountResponse getAccount() {
         return account;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
+    }
+
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
+
+    public void setClassType(String classType) {
+        this.classType = classType;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setOrigins(String origins) {
+        this.origins = origins;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setAccount(AccountResponse account) {
+        this.account = account;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 }
