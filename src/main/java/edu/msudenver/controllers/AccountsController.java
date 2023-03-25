@@ -76,6 +76,7 @@ public class AccountsController {
                 // Update the user's status to "Online"
                 Account updateAccount = accountService.getAccountByEmail(account.getEmail());
                 updateAccount.setStatus("Online");
+                accountService.updateOnline(updateAccount.getAccountId(), updateAccount);
 
                 // Update the user's record in the database
                 try {
