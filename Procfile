@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/cs-3250.jar --server.port=$PORT
+web: java $JAVA_OPTS -jar cs-3250.jar --server.port=$PORT
