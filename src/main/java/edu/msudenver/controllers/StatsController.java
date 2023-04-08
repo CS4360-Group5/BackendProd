@@ -11,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/stats")
@@ -99,6 +98,54 @@ public class StatsController {
         return responseList;
     }
 
+    @GetMapping("/{statsId}")
+    public ResponseEntity<StatsResponse> getStatProfileForZone(@PathVariable Long statsId) {
+        // Retrieve the stats object based on the ID provided in the request
+        Stats stats = statsRepository.findById(statsId).orElse(null);
+
+        // Check if the stats object is null
+        if (stats == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Stats not found");
+        }
+
+        // Create a StatsResponse object and populate it with the data from the stats object
+        StatsResponse response = new StatsResponse();
+        response.setAttack(stats.getAttack());
+        response.setCurrentCellX(stats.getCurrentCellX());
+        response.setCurrentCellY(stats.getCurrentCellY());
+        response.setCurrentLevel(stats.getCurrentLevel());
+        response.setDefense(stats.getDefense());
+        response.setHp(stats.getHp());
+        response.setStatsId(stats.getStatsId());
+        response.setXp(stats.getXp());
+
+        // Populate the profile data for the response object
+        Profile profile = stats.getProfile();
+        ProfileResponse profileRes = new ProfileResponse();
+        profileRes.setAccountId(profile.getAccount().getAccountId());
+        profileRes.setClassType(profile.getClassType());
+        profileRes.setGender(profile.getGender());
+        profileRes.setActive(profile.getIsActive());
+        profileRes.setOrigins(profile.getOrigins());
+        profileRes.setProfileId(profile.getProfileId());
+        profileRes.setProfileName(profile.getProfileName());
+        profileRes.setAccount(profile.getAccount());
+
+        response.setProfile(profileRes);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{statsId}")
+    public ResponseEntity<Void> deleteProfileStatsStats(@PathVariable Long statsId) {
+        if (statsRepository.existsById(statsId)) {
+            statsRepository.deleteById(statsId);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PatchMapping("/{statsId}")
     public Stats updateStats(@PathVariable Long statsId, @RequestBody StatsRequest request) {
         // First, retrieve the stats object to update
@@ -126,4 +173,50 @@ public class StatsController {
 
         return statsRepository.save(statsToUpdate);
     }
+
+    @PutMapping("/{statsId}/profile/{profileId}")
+    public ResponseEntity<Stats> assignStatsToProfile(@PathVariable Long statsId, @PathVariable Long profileId, @RequestBody StatsRequest request) {
+        // Retrieve the stats object and the profile object based on the IDs provided in the request
+        Stats stats = statsRepository.findById(statsId).orElse(null);
+        Profile profile = profileRepository.findById(profileId).orElse(null);
+
+        // Check if the stats or profile object is null
+        if (stats == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Stats not found");
+        }
+        if (profile == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found");
+        }
+
+        // Update the stats object with the new values
+        stats.setAttack(request.getAttack());
+        stats.setCurrentCellX(request.getCurrentCellX());
+        stats.setCurrentCellY(request.getCurrentCellY());
+        stats.setCurrentLevel(request.getCurrentLevel());
+        stats.setDefense(request.getDefense());
+        stats.setHp(request.getHp());
+        stats.setXp(request.getXp());
+
+        // Update the profile object with the new values
+        profile.setProfileName(request.getProfile().getProfileName());
+        profile.setClassType(request.getProfile().getClassType());
+        profile.setGender(request.getProfile().getGender());
+        profile.setIsActive(request.getProfile().getIsActive());
+        profile.setOrigins(request.getProfile().getOrigins());
+
+        // Find the account object based on the email in the request
+        Account account = accountRepository.findByEmail(request.getProfile().getAccount().getEmail());
+        if (account == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
+        }
+        profile.setAccount(account);
+
+        // Set the updated profile to the stats object
+        stats.setProfile(profile);
+
+        // Save the changes to the database
+        profileRepository.save(profile);
+        return ResponseEntity.ok(statsRepository.save(stats));
+    }
+
 }
