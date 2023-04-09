@@ -1,5 +1,7 @@
 package edu.msudenver.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -43,7 +45,7 @@ public class Stats {
     public void setStatsId(long statsId) {
         this.statsId = statsId;
     }
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Profile getProfile() {
         return profile;
     }

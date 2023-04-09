@@ -42,7 +42,7 @@ public class ProfileRequest {
         this.gender = gender;
     }
 
-    public boolean getIsActive() {
+    public boolean IsActive() {
         return isActive;
     }
 

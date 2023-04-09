@@ -6,10 +6,13 @@ import edu.msudenver.models.CountryRequest;
 import edu.msudenver.models.CountryResponse;
 import edu.msudenver.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,9 +31,13 @@ public class CountryController {
     }
 
     @PostMapping
-    public ResponseEntity<Country> createCountry(@RequestBody CountryRequest request) {
-        Country country = countryService.addCountry(request.getCountryCode(), request.getCountryName());
-        return ResponseEntity.ok(country);
+    public ResponseEntity<?> createCountry(@Valid @RequestBody CountryRequest request) {
+        try {
+            Country country = countryService.addCountry(request.getCountryCode(), request.getCountryName());
+            return ResponseEntity.ok(country);
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.badRequest().body("Country code already exists");
+        }
     }
 
     @GetMapping("/{countryCode}")
@@ -53,6 +60,7 @@ public class CountryController {
         }
     }
 
+    @Transactional
     @DeleteMapping("/{countryCode}")
     public ResponseEntity<Void> deleteCountryByCode(@PathVariable String countryCode) {
         countryService.deleteCountryByCode(countryCode);

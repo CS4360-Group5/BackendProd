@@ -52,7 +52,7 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setClassType(profileRequest.getClassType());
         profile.setGender(profileRequest.getGender());
         profile.setOrigins(profileRequest.getOrigins());
-        profile.setIsActive(profileRequest.getIsActive());
+        profile.setIsActive(profileRequest.IsActive());
         profile.setAccount(account);
         profileRepository.save(profile);
 
@@ -95,7 +95,7 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setClassType(profileRequest.getClassType());
         profile.setGender(profileRequest.getGender());
         profile.setOrigins(profileRequest.getOrigins());
-        profile.setIsActive(profileRequest.getIsActive());
+        profile.setIsActive(profileRequest.IsActive());
 
         // Update account fields
         //Account account = profile.getAccount();

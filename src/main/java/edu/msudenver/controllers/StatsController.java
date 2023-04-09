@@ -51,7 +51,7 @@ public class StatsController {
         profile.setProfileName(request.getProfile().getProfileName());
         profile.setClassType(request.getProfile().getClassType());
         profile.setGender(request.getProfile().getGender());
-        profile.setIsActive(request.getProfile().getIsActive());
+        profile.setIsActive(request.getProfile().IsActive());
         profile.setOrigins(request.getProfile().getOrigins());
         account.setEmail(request.getProfile().getAccount().getEmail());
         account.setGamerTag(request.getProfile().getAccount().getGamerTag());
@@ -147,7 +147,7 @@ public class StatsController {
     }
 
     @PatchMapping("/{statsId}")
-    public Stats updateStats(@PathVariable Long statsId, @RequestBody StatsRequest request) {
+    public StatsResponse patchStats(@PathVariable Long statsId, @RequestBody StatsRequest request) {
         // First, retrieve the stats object to update
         Stats statsToUpdate = statsRepository.findById(statsId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Stats not found"));
@@ -159,10 +159,9 @@ public class StatsController {
         statsToUpdate.setCurrentLevel(request.getCurrentLevel());
         statsToUpdate.setDefense(request.getDefense());
         statsToUpdate.setHp(request.getHp());
-        // statsToUpdate.getProfile().setAccountId(request.getProfile().getAccountId());
         statsToUpdate.getProfile().setClassType(request.getProfile().getClassType());
         statsToUpdate.getProfile().setGender(request.getProfile().getGender());
-        statsToUpdate.getProfile().setIsActive(request.getProfile().getIsActive());
+        statsToUpdate.getProfile().setIsActive(request.getProfile().IsActive());
         statsToUpdate.getProfile().setOrigins(request.getProfile().getOrigins());
         statsToUpdate.getProfile().setProfileName(request.getProfile().getProfileName());
         statsToUpdate.getProfile().getAccount().setEmail(request.getProfile().getAccount().getEmail());
@@ -171,7 +170,33 @@ public class StatsController {
         statsToUpdate.getProfile().getAccount().setStatus(request.getProfile().getAccount().getStatus());
         statsToUpdate.setXp(request.getXp());
 
-        return statsRepository.save(statsToUpdate);
+        statsRepository.save(statsToUpdate);
+
+        // Create a ProfileResponse object and populate it with the updated profile data
+        Profile profile = statsToUpdate.getProfile();
+        ProfileResponse profileRes = new ProfileResponse();
+        profileRes.setAccountId(profile.getAccount().getAccountId());
+        profileRes.setClassType(profile.getClassType());
+        profileRes.setGender(profile.getGender());
+        profileRes.setActive(profile.getIsActive());
+        profileRes.setOrigins(profile.getOrigins());
+        profileRes.setProfileId(profile.getProfileId());
+        profileRes.setProfileName(profile.getProfileName());
+        profileRes.setAccount(profile.getAccount());
+
+        // Create a StatsResponse object and populate it with the updated stats data
+        StatsResponse response = new StatsResponse();
+        response.setAttack(statsToUpdate.getAttack());
+        response.setCurrentCellX(statsToUpdate.getCurrentCellX());
+        response.setCurrentCellY(statsToUpdate.getCurrentCellY());
+        response.setCurrentLevel(statsToUpdate.getCurrentLevel());
+        response.setDefense(statsToUpdate.getDefense());
+        response.setHp(statsToUpdate.getHp());
+        response.setStatsId(statsToUpdate.getStatsId());
+        response.setXp(statsToUpdate.getXp());
+        response.setProfile(profileRes);
+
+        return response;
     }
 
     @PutMapping("/{statsId}/profile/{profileId}")
@@ -201,7 +226,7 @@ public class StatsController {
         profile.setProfileName(request.getProfile().getProfileName());
         profile.setClassType(request.getProfile().getClassType());
         profile.setGender(request.getProfile().getGender());
-        profile.setIsActive(request.getProfile().getIsActive());
+        profile.setIsActive(request.getProfile().IsActive());
         profile.setOrigins(request.getProfile().getOrigins());
 
         // Find the account object based on the email in the request
