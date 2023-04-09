@@ -8,8 +8,8 @@ public class StatsRequest {
     private int currentLevel;
     private int defense;
     private int hp;
-    private ProfileRequest profile;
     private long profileId;
+    private ProfileRequest profile;
     private int xp;
 
     public int getAttack() {
@@ -60,27 +60,24 @@ public class StatsRequest {
         this.hp = hp;
     }
 
-    public ProfileRequest getProfile() {
-        return profile;
-    }
-
-    public void setProfile(ProfileRequest profile) {
-        this.profile = profile;
-    }
-
     public long getProfileId() {
         return profileId;
     }
-
     public void setProfileId(long profileId) {
         this.profileId = profileId;
     }
-
+    public ProfileRequest getProfile() {
+        return profile;
+    }
+    public void setProfile(ProfileRequest profile) {
+        this.profile = profile;
+    }
     public int getXp() {
         return xp;
     }
-
     public void setXp(int xp) {
         this.xp = xp;
     }
+
+
 }

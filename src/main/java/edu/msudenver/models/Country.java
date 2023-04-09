@@ -3,13 +3,16 @@ package edu.msudenver.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "countries")
+@Table(name = "countries", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "countryCode")
+})
 public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String countryCode;
 
     private String countryName;

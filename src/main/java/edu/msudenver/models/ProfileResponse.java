@@ -1,5 +1,8 @@
 package edu.msudenver.models;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({ "account","classType","gender","active","origins","profileId", "profileName" })
 public class ProfileResponse {
 
     private Long profileId;
@@ -15,26 +18,26 @@ public class ProfileResponse {
 
     public ProfileResponse(Long profileId, String profileName, String classType, String gender, String origins, boolean isActive, AccountResponse account) {
 
-        this.profileId = profileId;
-        this.profileName = profileName;
+        this.account = account;
         this.classType = classType;
         this.gender = gender;
-        this.origins = origins;
         this.isActive = isActive;
-        this.account = account;
+        this.origins = origins;
+        this.profileId = profileId;
+        this.profileName = profileName;
     }
 
     public ProfileResponse() {
 
     }
 
+    public String getProfileName() {
+        return profileName;
+    }
     public Long getProfileId() {
         return profileId;
     }
 
-    public String getProfileName() {
-        return profileName;
-    }
 
     public String getClassType() {
         return classType;
