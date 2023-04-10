@@ -1,0 +1,165 @@
+package edu.msudenver.models;
+
+import java.util.List;
+
+public class CatalogResponse {
+
+    public CatalogResponse(long catalogId, String name, String type, int level, int health, int speed, int attack, int defense,
+                           int expGranted, boolean canBeEquipped, boolean equipped, boolean canBeLooted, List<String> loot,
+                           int lootSize) {
+        this.catalogId = catalogId;
+        this.name = name;
+        this.type = type;
+        this.level = level;
+        this.health = health;
+        this.speed = speed;
+        this.attack = attack;
+        this.defense = defense;
+        this.expGranted = expGranted;
+        this.canBeEquipped = canBeEquipped;
+        this.equipped = equipped;
+        this.canBeLooted = canBeLooted;
+        this.loot = loot;
+        this.lootSize = lootSize;
+    }
+
+    private Long catalogId;
+
+    private String name;
+
+    private String type;
+
+    private int level;
+
+    private int health;
+
+    private int speed;
+
+    private int attack;
+
+    private int defense;
+
+    private int expGranted;
+
+    private boolean canBeEquipped;
+
+    private boolean equipped;
+
+    private boolean canBeLooted;
+
+    private List<String> loot;
+
+    private int lootSize;
+
+    public Long getCatalogId() {
+        return catalogId;
+    }
+
+    public void setCatalogId(Long catalogId) {
+        this.catalogId = catalogId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+
+    public int getExpGranted() {
+        return expGranted;
+    }
+
+    public void setExpGranted(int expGranted) {
+        this.expGranted = expGranted;
+    }
+
+    public boolean isCanBeEquipped() {
+        return canBeEquipped;
+    }
+
+    public void setCanBeEquipped(boolean canBeEquipped) {
+        this.canBeEquipped = canBeEquipped;
+    }
+
+    public boolean isEquipped() {
+        return equipped;
+    }
+
+    public void setEquipped(boolean equipped) {
+        this.equipped = equipped;
+    }
+
+    public boolean isCanBeLooted() {
+        return canBeLooted;
+    }
+
+    public void setCanBeLooted(boolean canBeLooted) {
+        this.canBeLooted = canBeLooted;
+    }
+
+    public List<String> getLoot() {
+        return loot;
+    }
+
+    public void setLoot(List<String> loot) {
+        this.loot = loot;
+    }
+
+    public int getLootSize() {
+        return lootSize;
+    }
+
+    public void setLootSize(int lootSize) {
+        this.lootSize = lootSize;
+    }
+}
