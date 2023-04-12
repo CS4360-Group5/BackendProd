@@ -34,14 +34,14 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public void deleteItemByIdAndProfileId(Long inventoryId, Long profileId) {
-        inventoryRepository.deleteByInventoryIdAndProfileId(inventoryId, profileId);
+    public void deleteItemByIdAndProfileId(Long profileId, Long id) {
+        inventoryRepository.deleteInventoryByProfileIdAndId(profileId, id);
     }
     @Override
-    public Inventory findByInventoryIdAndProfileId(Long inventoryId, Long profileId) throws ResourceNotFoundException {
-        Inventory inventory = inventoryRepository.findByInventoryIdAndProfileId(inventoryId, profileId);
+    public Inventory findByIdAndProfileId(Long id, Long profileId) throws ResourceNotFoundException {
+        Inventory inventory = inventoryRepository.findByIdAndProfileId(id, profileId);
         if (inventory == null) {
-            throw new ResourceNotFoundException("Inventory", "inventoryId and profileId", inventoryId + " and " + profileId);
+            throw new ResourceNotFoundException("Inventory", "inventoryId and profileId", id + " and " + profileId);
         }
         return inventory;
     }
