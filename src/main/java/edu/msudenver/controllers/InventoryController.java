@@ -116,7 +116,7 @@ public class InventoryController {
     }
 
     @DeleteMapping("/{inventoryId}/profile/{profileId}")
-    public ResponseEntity<?> deleteInventory(@PathVariable Long inventoryId, @PathVariable Long profileId) {
+    public ResponseEntity<?> deleteItem(@PathVariable Long inventoryId, @PathVariable Long profileId) {
         inventoryService.deleteItemByIdAndProfileId(profileId, inventoryId);
         return ResponseEntity.ok().build();
     }
