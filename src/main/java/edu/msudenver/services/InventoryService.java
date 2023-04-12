@@ -9,6 +9,6 @@ public interface InventoryService {
     List<Inventory> getAllInventory();
     Inventory findById(Long id);
     List<Inventory> getInventoryByProfileId(Long profileId);
-    void deleteItemByIdAndProfileId(Long inventoryId, Long profileId);
-    Inventory findByInventoryIdAndProfileId(Long inventoryId, Long profileId);
+    void deleteItemByIdAndProfileId(Long profileId, Long id);
+    Inventory findByIdAndProfileId(Long inventoryId, Long profileId);
 }

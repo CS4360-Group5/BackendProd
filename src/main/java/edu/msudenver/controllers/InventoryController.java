@@ -117,14 +117,14 @@ public class InventoryController {
 
     @DeleteMapping("/{inventoryId}/profile/{profileId}")
     public ResponseEntity<?> deleteItem(@PathVariable Long inventoryId, @PathVariable Long profileId) {
-        inventoryService.deleteItemByIdAndProfileId(inventoryId, profileId);
+        inventoryService.deleteItemByIdAndProfileId(profileId, inventoryId);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{inventoryId}/profile/{profileId}/edit")
     public InventoryResponse changeQuantityType(@PathVariable Long inventoryId, @PathVariable Long profileId,
                                                 @RequestBody InventoryRequest inventoryRequest) {
-        Inventory inventory = inventoryService.findByInventoryIdAndProfileId(inventoryId, profileId);
+        Inventory inventory = inventoryService.findByIdAndProfileId(inventoryId, profileId);
 
         inventory.setCatalogId(inventoryRequest.getCatalogId());
         inventory.setEquipped(inventoryRequest.getEquipped());

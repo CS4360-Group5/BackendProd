@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     List<Inventory> findByProfileId(Long profileId);
-    void deleteByInventoryIdAndProfileId(Long inventoryId, Long profileId);
-    Inventory findByInventoryIdAndProfileId(Long inventoryId, Long profileId);
+    void deleteInventoryByProfileIdAndId(Long profileId, Long id);
+    Inventory findByIdAndProfileId(Long id, Long profileId);
 }
