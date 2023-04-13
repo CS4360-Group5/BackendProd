@@ -9,7 +9,6 @@ public class ContentRequest {
     private String type;
     private Long zoneId;
 
-    // Constructors
     public ContentRequest() {}
 
     public ContentRequest(Long cellId, Long contentId, Long profileId, Integer quantity, String type, Long zoneId) {
@@ -21,7 +20,6 @@ public class ContentRequest {
         this.zoneId = zoneId;
     }
 
-    // Getters and setters
     public Long getCellId() {
         return cellId;
     }

@@ -61,11 +61,9 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public ContentResponse getContentById(long contentId, long zoneId) {
-        Content content = contentRepository.findByContentIdAndZoneId(contentId, zoneId);
-        if (content == null) {
-            throw new ResourceNotFoundException("Content", "contentId", contentId);
-        }
+    public ContentResponse getContentById(Long contentId) {
+        Content content = contentRepository.findById(contentId)
+                .orElseThrow(() -> new  ResourceNotFoundException("Content", "id", contentId));
 
         Catalog catalog = catalogService.getCatalogById(content.getContentId());
         CatalogResponse catalogResponse = new CatalogResponse(catalog.getCatalogId(), catalog.getName(), catalog.getType(),
@@ -73,15 +71,12 @@ public class ContentServiceImpl implements ContentService {
                 catalog.getExpGranted(), catalog.isCanBeEquipped(), catalog.isEquipped(), catalog.isCanBeLooted(),
                 catalog.getLoot(), catalog.getLootSize());
 
-
-        Cell cell = cellService.getCellById(content.getCellId(), zoneId);
+        Cell cell = cellService.getCellById(content.getCellId(), content.getZoneId());
         ZoneResponse zoneResponse = new ZoneResponse(cell.getZone().getZoneId());
         CellResponse cellResponse = new CellResponse(cell.getId(), cell.getXcoordinate(), cell.getYcoordinate(), zoneResponse);
 
-        ContentResponse contentResponse = new ContentResponse(catalogResponse, cellResponse, content.getContentId(),
+        return new ContentResponse(catalogResponse, cellResponse, content.getContentId(),
                 content.getProfileId(), content.getQuantity(), content.getType());
-
-        return contentResponse;
     }
 
     @Override
@@ -111,12 +106,44 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public void deleteContentById(long contentId, long zoneId) {
-        Content content = contentRepository.findByContentIdAndZoneId(contentId, zoneId);
-        if (content == null) {
-            throw new ResourceNotFoundException("Content", "contentId", contentId);
-        }
+    public void deleteContentById(long contentId) {
+        Content content = contentRepository.findById(contentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Content", "contentId", contentId));
 
         contentRepository.deleteById(content.getId());
+    }
+
+    @Override
+    public List<ContentResponse> getContentByRadiusAndType(Long zoneId, Long cellId, int radius, String type) {
+        Cell cell = cellService.getCellById(cellId, zoneId);
+        List<Content> contentList = contentRepository.findByZoneId(zoneId);
+
+        List<ContentResponse> contentResponseList = new ArrayList<>();
+
+        for (Content content : contentList) {
+            if (content.getType().equals(type)) {
+                Cell contentCell = cellService.getCellById(content.getCellId(), zoneId);
+                int distance = Math.abs(cell.getXcoordinate() - contentCell.getXcoordinate()) +
+                        Math.abs(cell.getYcoordinate() - contentCell.getYcoordinate());
+
+                if (distance <= radius) {
+                    Catalog catalog = catalogService.getCatalogById(content.getContentId());
+                    CatalogResponse catalogResponse = new CatalogResponse(catalog.getCatalogId(), catalog.getName(), catalog.getType(),
+                            catalog.getLevel(), catalog.getHealth(), catalog.getSpeed(), catalog.getAttack(), catalog.getDefense(),
+                            catalog.getExpGranted(), catalog.isCanBeEquipped(), catalog.isEquipped(), catalog.isCanBeLooted(),
+                            catalog.getLoot(), catalog.getLootSize());
+
+                    ZoneResponse zoneResponse = new ZoneResponse(cell.getZone().getZoneId());
+                    CellResponse cellResponse = new CellResponse(cell.getId(), cell.getXcoordinate(), cell.getYcoordinate(), zoneResponse);
+
+                    ContentResponse contentResponse = new ContentResponse(catalogResponse, cellResponse, content.getContentId(),
+                            content.getProfileId(), content.getQuantity(), content.getType());
+
+                    contentResponseList.add(contentResponse);
+                }
+            }
+        }
+
+        return contentResponseList;
     }
 }
