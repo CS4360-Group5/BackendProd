@@ -8,4 +8,5 @@ import java.util.List;
 public interface ContentRepository extends JpaRepository<Content, Long> {
     List<Content> findByCellIdAndZoneId(Long cellId, Long zoneId);
     Content findByContentIdAndZoneId(Long contentId, Long zoneId);
+    List<Content> findByZoneId(Long zoneId);
 }

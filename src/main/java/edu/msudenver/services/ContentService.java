@@ -10,7 +10,9 @@ import java.util.List;
 
 public interface ContentService {
     ContentResponse createContent(ContentRequest contentRequest);
-    ContentResponse getContentById(long contentId, long zoneId);
+    ContentResponse getContentById(Long contentId);
     List<ContentResponse> getAllContentByCellIdAndZoneId(long cellId, long zoneId);
-    void deleteContentById(long contentId, long zoneId);
+    void deleteContentById(long contentId);
+
+    List<ContentResponse> getContentByRadiusAndType(Long zoneId, Long cellId, int radius, String type);
 }

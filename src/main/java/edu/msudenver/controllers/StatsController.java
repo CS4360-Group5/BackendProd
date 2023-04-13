@@ -17,9 +17,7 @@ import java.util.*;
 @RequestMapping("/stats")
 public class StatsController {
     @Autowired
-
     private StatsService statsService;
-
     @Autowired StatsRepository statsRepository;
     @Autowired
     ProfileRepository profileRepository;
