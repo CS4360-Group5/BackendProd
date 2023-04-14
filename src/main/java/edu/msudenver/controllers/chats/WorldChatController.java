@@ -38,12 +38,49 @@ public class WorldChatController {
                 worldChatRequest.getFromId(),
                 zoneId);
 
-        WorldChat savedWorldChat = worldChatService.saveWorldChat(worldChat);
+        WorldChat savedWorldChat = worldChatService.createWorldChat(worldChat);
         List<WorldChat> worldChatList = worldChatService.getWorldChatsByZoneId(zoneId);
         List<WorldChatResponse> worldChatResponseList = new ArrayList<>();
         for (WorldChat chat : worldChatList) {
             worldChatResponseList.add(new WorldChatResponse(chat));
         }
         return ResponseEntity.ok(worldChatResponseList);
+    }
+
+    @GetMapping("/all/{destinationId}")
+    public ResponseEntity<List<WorldChatResponse>> getAllWorldChats(@PathVariable String destinationId) {
+        List<WorldChat> worldChatList = worldChatService.getAllWorldChats();
+        List<WorldChatResponse> worldChatResponseList = new ArrayList<>();
+
+        for (WorldChat worldChat : worldChatList) {
+            if (worldChat.getDestinationId().equals(destinationId)) {
+                worldChatResponseList.add(new WorldChatResponse(worldChat));
+            }
+        }
+
+        return ResponseEntity.ok(worldChatResponseList);
+    }
+
+    @GetMapping("/from/{fromId}")
+    public ResponseEntity<List<WorldChatResponse>> getWorldChatsByFromId(@PathVariable String fromId) {
+        List<WorldChat> worldChatList = worldChatService.getWorldChatsByFromId(fromId);
+        List<WorldChatResponse> worldChatResponseList = new ArrayList<>();
+
+        for (WorldChat worldChat : worldChatList) {
+            WorldChatResponse worldChatResponse = new WorldChatResponse(worldChat);
+            worldChatResponseList.add(worldChatResponse);
+        }
+
+        return ResponseEntity.ok(worldChatResponseList);
+    }
+
+    @GetMapping("/{destinationId}")
+    public List<WorldChatResponse> getNewWorldChatsToPlayer(@PathVariable String destinationId) {
+        List<WorldChat> worldChats = worldChatService.getNewWorldChatsToPlayer(destinationId);
+        List<WorldChatResponse> worldChatResponses = new ArrayList<>();
+        for (WorldChat worldChat : worldChats) {
+            worldChatResponses.add(new WorldChatResponse(worldChat));
+        }
+        return worldChatResponses;
     }
 }
