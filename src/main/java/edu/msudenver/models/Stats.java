@@ -8,6 +8,7 @@ import javax.persistence.*;
 public class Stats {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long statsId;
 
 
